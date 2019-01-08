@@ -1,0 +1,4 @@
+{
+  "RootNamespace": "GoLive",
+  "EntityFrameworkCore": "true"
+}
