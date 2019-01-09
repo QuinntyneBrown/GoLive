@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { CustomerService } from './customers/customer.service';
+import { Observable } from 'rxjs';
+import { Customer } from './customers/customer.model';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'GoLiveApp';
+  constructor(
+    private readonly _customerService: CustomerService
+  ) { }
+
+  ngOnInit() {
+    this.customers$ = this._customerService.get();
+  }
+  public customers$:Observable<Customer[]>;
 }

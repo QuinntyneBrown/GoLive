@@ -24,6 +24,11 @@ namespace GoLive.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddPolicy("CorsPolicy",
+                builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()));
 
             services.AddScoped<IAppDbContext, AppDbContext>();
 
@@ -66,6 +71,8 @@ namespace GoLive.API
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors("CorsPolicy");
+
             if (env.IsDevelopment())
             {
                 app.UseSwagger();
@@ -87,6 +94,7 @@ namespace GoLive.API
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
         }
     }
 }

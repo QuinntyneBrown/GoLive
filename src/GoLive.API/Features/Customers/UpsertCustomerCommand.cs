@@ -1,5 +1,5 @@
 using GoLive.Core.Interfaces;
-using GoLive.Core.Model;
+using GoLive.Core.Models;
 using MediatR;
 using System;
 using System.Threading;

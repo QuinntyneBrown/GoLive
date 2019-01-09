@@ -1,5 +1,4 @@
-using GoLive.Core.Model;
-using GoLive.Core.Model;
+using GoLive.Core.Models;
 using System;
 
 namespace GoLive.API.Features.Customers

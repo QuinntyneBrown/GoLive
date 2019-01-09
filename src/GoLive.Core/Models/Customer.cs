@@ -1,6 +1,6 @@
 using System;
 
-namespace GoLive.Core.Model
+namespace GoLive.Core.Models
 {
     public class Customer 
     {

@@ -1,5 +1,5 @@
 ﻿using GoLive.Core.Interfaces;
-using GoLive.Core.Model;
+using GoLive.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GoLive.Infrastructure
@@ -11,6 +11,6 @@ namespace GoLive.Infrastructure
         
         { }
 
-        public DbSet<Customer> Customers { get; }
+        public DbSet<Customer> Customers { get; private set; }
     }
 }

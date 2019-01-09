@@ -1,4 +1,4 @@
-﻿using GoLive.Core.Model;
+﻿using GoLive.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;

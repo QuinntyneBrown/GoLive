@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { baseUrl } from './core/constants';
+import { CustomersModule } from './customers/customers.module';
 
 @NgModule({
   declarations: [
@@ -10,9 +12,13 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CustomersModule
   ],
-  providers: [],
+  providers: [{
+    provide: baseUrl,
+    useValue:"https://localhost:44324/"
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

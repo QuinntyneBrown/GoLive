@@ -23,7 +23,7 @@ namespace GoLive.API.Features.Customers
             public Handler(IAppDbContext context) => _context = context;
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
-                => new Response()
+                =>  new Response()
                 {
                     Customers = await _context.Customers.Select(x => CustomerDto.FromCustomer(x)).ToArrayAsync()
                 };
