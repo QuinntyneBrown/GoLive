@@ -35,7 +35,6 @@ import {
 } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { OverlayRefWrapper } from './overlay-ref-wrapper';
 
 const declarations = [
 ];
@@ -118,6 +117,6 @@ const declarations = [
     ReactiveFormsModule
    
   ],
-  providers:[OverlayRefWrapper]
+  providers:[]
 })
 export class SharedModule { }

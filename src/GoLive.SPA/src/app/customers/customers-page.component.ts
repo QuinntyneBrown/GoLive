@@ -1,10 +1,10 @@
-import { Component, ChangeDetectorRef } from "@angular/core";
-import { Subject, Observable } from "rxjs";
+import { Component } from "@angular/core";
+import { Subject } from "rxjs";
 import { CustomerService } from './customer.service';
 import { Customer } from './customer.model';
 import { UpsertCustomerOverlay } from './upsert-customer-overlay';
 import { MatTableDataSource } from '@angular/material';
-import { tap } from 'rxjs/operators';
+import { tap, takeUntil } from 'rxjs/operators';
 
 @Component({
   templateUrl: "./customers-page.component.html",
@@ -14,8 +14,7 @@ import { tap } from 'rxjs/operators';
 export class CustomersPageComponent { 
   constructor(
     private readonly _customerService: CustomerService,
-    private readonly _upsertCustomerOverlay: UpsertCustomerOverlay,
-    private readonly _changeDetectorRef: ChangeDetectorRef
+    private readonly _upsertCustomerOverlay: UpsertCustomerOverlay
   ) { }
 
   public dataSource = new MatTableDataSource<Customer>([]);
@@ -26,18 +25,31 @@ export class CustomersPageComponent {
       .pipe(
         tap(x => {
           this.dataSource = new MatTableDataSource<Customer>(x);
-        })
+        }),
+        takeUntil(this.onDestroy)
       )
       .subscribe();
   }
 
-  public columnsToDisplay: string[] = ['customerId','name','isLive'];
+  public columnsToDisplay: string[] = ['customerId', 'name', 'isLive'];
   
   public onDestroy: Subject<void> = new Subject<void>();
 
-  public open($event:any) {
-    this._upsertCustomerOverlay.create()
-      .subscribe();
+  public createOverlay($event: any = {}) {    
+    this._upsertCustomerOverlay.create({
+      source: {
+        customerId: $event.customerId
+      }
+    })
+    .pipe(
+      tap(x => {
+        let data = this.dataSource.data.slice(0);
+        // upsert customer to data
+        this.dataSource = new MatTableDataSource<Customer>(data);
+      }),
+      takeUntil(this.onDestroy)
+    )
+    .subscribe();
   }
 
   ngOnDestroy() {

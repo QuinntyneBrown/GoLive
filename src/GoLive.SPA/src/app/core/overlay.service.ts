@@ -3,7 +3,7 @@ import { ComponentPortal, PortalInjector } from "@angular/cdk/portal";
 import { ComponentRef, Injector, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { OverlayRefProvider } from "./overlay-ref-provider";
-import { OverlayRefWrapper } from '../shared/overlay-ref-wrapper';
+import { OverlayRefWrapper } from './overlay-ref-wrapper';
 
 @Injectable()
 export class OverlayService<TComponent> {

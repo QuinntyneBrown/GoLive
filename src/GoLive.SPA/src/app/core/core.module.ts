@@ -3,8 +3,8 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
-import { OverlayService } from './overlay.service';
 import { OverlayRefProvider } from './overlay-ref-provider';
+import { OverlayRefWrapper } from './overlay-ref-wrapper';
 
 const declarations = [
 
@@ -15,7 +15,8 @@ const entryComponents = [
 ];
 
 const providers = [
-  OverlayRefProvider
+  OverlayRefProvider,
+  OverlayRefWrapper
 ];
 
 @NgModule({

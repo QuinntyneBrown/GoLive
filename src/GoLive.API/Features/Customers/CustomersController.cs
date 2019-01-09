@@ -16,6 +16,10 @@ namespace GoLive.API.Features.Customers
         public async Task<ActionResult<GetCustomersQuery.Response>> Get()
             => await _meditator.Send(new GetCustomersQuery.Request());
 
+        [HttpGet("customerId")]
+        public async Task<ActionResult<GetCustomerByIdQuery.Response>> GetById(GetCustomerByIdQuery.Request request)
+            => await _meditator.Send(request);
+
         [HttpPost]
         public async Task<ActionResult<UpsertCustomerCommand.Response>> Upsert(UpsertCustomerCommand.Request request)
             => await _meditator.Send(request);

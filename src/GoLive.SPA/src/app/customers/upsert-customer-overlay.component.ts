@@ -4,7 +4,7 @@ import { FormGroup, FormControl } from "@angular/forms";
 import { CustomerService } from "./customer.service";
 import { Customer } from "./customer.model";
 import { map, switchMap, tap, takeUntil } from "rxjs/operators";
-import { OverlayRefWrapper } from '../shared/overlay-ref-wrapper';
+import { OverlayRefWrapper } from '../core/overlay-ref-wrapper';
 
 @Component({
   templateUrl: "./upsert-customer-overlay.component.html",

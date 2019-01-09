@@ -94,7 +94,6 @@ namespace GoLive.API
 
             app.UseHttpsRedirection();
             app.UseMvc();
-
         }
     }
 }
