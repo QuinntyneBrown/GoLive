@@ -1,6 +1,6 @@
 import { Injectable, NgZone, Inject } from '@angular/core';
 import { Subject } from 'rxjs';
-import { HubConnection, HubConnectionBuilder, IHttpConnectionOptions } from "@aspnet/signalr";
+import { HubConnection, HubConnectionBuilder, IHttpConnectionOptions, LogLevel } from "@aspnet/signalr";
 import { baseUrl } from './constants';
 
 @Injectable()
@@ -24,6 +24,7 @@ export class HubClient {
 
       this._connection = this._connection || new HubConnectionBuilder()
         .withUrl(`${this._baseUrl}hub`, options)
+        .configureLogging(LogLevel.Information)
         .build();
 
       this._connection.on('message', value => {

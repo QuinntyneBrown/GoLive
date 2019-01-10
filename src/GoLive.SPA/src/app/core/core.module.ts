@@ -6,15 +6,15 @@ import { SharedModule } from '../shared/shared.module';
 import { OverlayRefProvider } from './overlay-ref-provider';
 import { OverlayRefWrapper } from './overlay-ref-wrapper';
 
-const declarations = [
+const declarations: any[] = [
 
 ];
 
-const entryComponents = [
+const entryComponents: any[] = [
 
 ];
 
-const providers = [
+const providers: any[] = [
   OverlayRefProvider,
   OverlayRefWrapper
 ];
@@ -29,6 +29,6 @@ const providers = [
     RouterModule,
     SharedModule	
   ],
-  providers,
+  providers
 })
 export class CoreModule { }

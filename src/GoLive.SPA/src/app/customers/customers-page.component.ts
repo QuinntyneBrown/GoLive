@@ -24,15 +24,29 @@ export class CustomersPageComponent {
       .get()
       .pipe(
         tap(x => {
-          this.dataSource = new MatTableDataSource<Customer>(x);
+          this.dataSource = new MatTableDataSource<Customer>([
+            { customerId: "", name: "Foo", isLive: true }
+          ]);
         }),
         takeUntil(this.onDestroy)
       )
       .subscribe();
   }
 
-  public columnsToDisplay: string[] = ['customerId', 'name', 'isLive'];
-  
+  public readonly columnsToDisplay: string[] = ['customerId', 'name', 'isLive', 'edit', 'delete'];
+
+  public onCreate() {
+    this.createOverlay();
+  }
+
+  public onEdit($event) {
+    alert(JSON.stringify($event));
+  }
+
+  public onDelete($event) {
+    alert(JSON.stringify($event));
+  }
+
   public onDestroy: Subject<void> = new Subject<void>();
 
   public createOverlay($event: any = {}) {    
@@ -43,8 +57,18 @@ export class CustomersPageComponent {
     })
     .pipe(
       tap(x => {
+        if (!x) return;
+
         let data = this.dataSource.data.slice(0);
-        // upsert customer to data
+
+        let idx = data.findIndex(x => x.customerId == x.customerId);
+
+        if (!idx) {
+          data.push(x);
+        } else {
+          data[idx] = x;
+        }
+      
         this.dataSource = new MatTableDataSource<Customer>(data);
       }),
       takeUntil(this.onDestroy)
@@ -52,7 +76,6 @@ export class CustomersPageComponent {
     .subscribe();
   }
 
-  ngOnDestroy() {
-    this.onDestroy.next();	
-  }
+  ngOnDestroy() { this.onDestroy.next(); }
+
 }

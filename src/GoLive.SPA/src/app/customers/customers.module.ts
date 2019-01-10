@@ -11,7 +11,8 @@ import { UpsertCustomerOverlayComponent } from './upsert-customer-overlay.compon
 import { UpsertCustomerOverlay } from './upsert-customer-overlay';
 
 const declarations = [
-  CustomersPageComponent
+  CustomersPageComponent,
+  UpsertCustomerOverlayComponent
 ];
 
 const entryComponents = [
@@ -36,5 +37,6 @@ const providers = [
     SharedModule	
   ],
   providers,
+  entryComponents
 })
 export class CustomersModule { }

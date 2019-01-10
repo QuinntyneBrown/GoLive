@@ -12,5 +12,6 @@ namespace GoLive.Infrastructure
         { }
 
         public DbSet<Customer> Customers { get; private set; }
+        public DbSet<User> Users { get; private set; }
     }
 }

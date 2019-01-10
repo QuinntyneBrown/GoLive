@@ -9,6 +9,15 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Swashbuckle.AspNetCore.Swagger;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Extensions.Primitives;
+using System.Threading.Tasks;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using GoLive.Core.Identity;
 
 namespace GoLive.API
 {
@@ -31,6 +40,10 @@ namespace GoLive.API
                 .AllowCredentials()));
 
             services.AddScoped<IAppDbContext, AppDbContext>();
+
+            services.AddSingleton<IPasswordHasher, PasswordHasher>();
+
+            services.AddSingleton<ISecurityTokenFactory, SecurityTokenFactory>();
 
             var settings = new JsonSerializerSettings
             {
@@ -64,11 +77,56 @@ namespace GoLive.API
 
             services.ConfigureSwaggerGen(options => { });
 
+            var jwtSecurityTokenHandler = new JwtSecurityTokenHandler
+            {
+                InboundClaimTypeMap = new Dictionary<string, string>()
+            };
+
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.SecurityTokenValidators.Clear();
+                    options.SecurityTokenValidators.Add(jwtSecurityTokenHandler);
+                    options.TokenValidationParameters = GetTokenValidationParameters(Configuration);
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            context.Request.Query.TryGetValue("access_token", out StringValues token);
+
+                            if (!string.IsNullOrEmpty(token)) context.Token = token;
+
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
+
             services.AddMediatR(typeof(Startup));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);            
         }
-        
+
+        private static TokenValidationParameters GetTokenValidationParameters(IConfiguration configuration)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["Authentication:JwtKey"])),
+                ValidateIssuer = true,
+                ValidIssuer = configuration["Authentication:JwtIssuer"],
+                ValidateAudience = true,
+                ValidAudience = configuration["Authentication:JwtAudience"],
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero,
+                NameClaimType = JwtRegisteredClaimNames.UniqueName
+            };
+
+            return tokenValidationParameters;
+        }
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseCors("CorsPolicy");
