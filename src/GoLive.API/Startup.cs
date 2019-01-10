@@ -1,23 +1,23 @@
-﻿using GoLive.Core.Interfaces;
+﻿using GoLive.Core.Identity;
+using GoLive.Core.Interfaces;
 using GoLive.Infrastructure;
+using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using MediatR;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.Extensions.Primitives;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Swashbuckle.AspNetCore.Swagger;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.Extensions.Primitives;
-using System.Threading.Tasks;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using GoLive.Core.Identity;
+using System.Threading.Tasks;
 
 namespace GoLive.API
 {
@@ -58,9 +58,7 @@ namespace GoLive.API
                                                ServiceLifetime.Transient));
 
             services.AddSignalR().AddAzureSignalR(Configuration["SignalR:DefaultConnection:ConnectionString"]);
-
-            //services.AddSignalR();
-
+            
             services.AddDbContext<AppDbContext>(options =>
             {
                 options
