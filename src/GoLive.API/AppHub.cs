@@ -9,11 +9,15 @@ namespace GoLive.API
     public class AppHub: Hub {
         public override Task OnConnectedAsync()
         {
+            Console.WriteLine("On Connected Async");
+
             return base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception exception)
         {
+            Console.WriteLine("On Disconnected Async");
+
             return base.OnDisconnectedAsync(exception);
         }
     }

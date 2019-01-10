@@ -11,6 +11,8 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { HubClientGuard } from './hub-client-guard';
 import { HubClient } from './hub-client';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HeaderInterceptor } from './headers.interceptor';
 
 const declarations: any[] = [
 
@@ -21,6 +23,11 @@ const entryComponents: any[] = [
 ];
 
 const providers: any[] = [
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HeaderInterceptor,
+    multi: true
+  },
   AuthService,
   OverlayRefProvider,
   OverlayRefWrapper,
@@ -38,6 +45,7 @@ const providers: any[] = [
   imports: [
     CommonModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     RouterModule,
     SharedModule	

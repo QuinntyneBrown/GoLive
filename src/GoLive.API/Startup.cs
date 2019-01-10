@@ -57,9 +57,9 @@ namespace GoLive.API
                                                provider => serializer,
                                                ServiceLifetime.Transient));
 
-            //services.AddSignalR().AddAzureSignalR(Configuration["SignalR:DefaultConnection:ConnectionString"]);
+            services.AddSignalR().AddAzureSignalR(Configuration["SignalR:DefaultConnection:ConnectionString"]);
 
-            services.AddSignalR();
+            //services.AddSignalR();
 
             services.AddDbContext<AppDbContext>(options =>
             {
@@ -134,6 +134,7 @@ namespace GoLive.API
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseCors("CorsPolicy");
+            app.UseAuthentication();
 
             if (env.IsDevelopment())
             {
@@ -152,7 +153,7 @@ namespace GoLive.API
                 app.UseHsts();
             }
 
-            app.UseSignalR(routes => routes.MapHub<AppHub>("/hub"));
+            app.UseAzureSignalR(routes => routes.MapHub<AppHub>("/hub"));
 
             app.UseHttpsRedirection();
             app.UseMvc();
