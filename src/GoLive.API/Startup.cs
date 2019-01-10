@@ -34,9 +34,10 @@ namespace GoLive.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options => options.AddPolicy("CorsPolicy",
-                builder => builder.AllowAnyOrigin()
+                builder => builder
                 .AllowAnyMethod()
                 .AllowAnyHeader()
+                .SetIsOriginAllowed(isOriginAllowed: _ => true)
                 .AllowCredentials()));
 
             services.AddScoped<IAppDbContext, AppDbContext>();
@@ -56,8 +57,10 @@ namespace GoLive.API
                                                provider => serializer,
                                                ServiceLifetime.Transient));
 
-            services.AddSignalR().AddAzureSignalR(Configuration["SignalR:DefaultConnection:ConnectionString"]);
-            
+            //services.AddSignalR().AddAzureSignalR(Configuration["SignalR:DefaultConnection:ConnectionString"]);
+
+            services.AddSignalR();
+
             services.AddDbContext<AppDbContext>(options =>
             {
                 options
