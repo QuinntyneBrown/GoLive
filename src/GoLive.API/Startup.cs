@@ -55,7 +55,8 @@ namespace GoLive.API
             services.Add(new ServiceDescriptor(typeof(JsonSerializer),
                                                provider => serializer,
                                                ServiceLifetime.Transient));
-            services.AddSignalR();
+
+            services.AddSignalR().AddAzureSignalR(Configuration["SignalR:DefaultConnection:ConnectionString"]);
             
             services.AddDbContext<AppDbContext>(options =>
             {
